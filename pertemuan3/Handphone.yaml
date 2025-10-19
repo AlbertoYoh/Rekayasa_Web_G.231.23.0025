@@ -1,0 +1,176 @@
+openapi: "3.0.2"
+info:
+  title: API Data Handphone
+  description: API untuk mengelola data Merk, Type, Tahun Publish, Harga 
+  version: '1.0.0'
+  termsOfService: https://swagger.io/terms/
+  contact:
+    name: Admin API Handphone
+    email: admin@handphone.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://api.handphone.com/v1
+    description: Production server
+  - url: https://api-staging.handphone.com/v1
+    description: Staging server
+tags:
+  - name: Handphone
+    description: Endpoint terkait dengan pengelolaan data Handphone
+paths:
+  /phone:
+    get:
+      tags:
+        - Handphone
+      summary: Mendapatkan daftar data handphone
+      description: Mengambil semua daftar data handphone yang terdaftar.
+      operationId: getPhone
+      responses:
+        '200':
+          description: Daftar handphone berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Handphone'
+        '500':
+          description: Kesalahan server
+    post:
+      tags:
+        - Handphone
+      summary: Menambahkan data handphone baru
+      description: Menambahkan data handphone baru ke dalam daftar.
+      operationId: addPhone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HandphoneInput'
+      responses:
+        '201':
+          description: Data berhasil dimasukan
+        '500':
+          description: Kesalahan server
+
+  /phone/{id}:
+    get:
+      tags:
+        - Handphone
+      summary: Mendapatkan detail handphone
+      description: mendapatkan informasi detail data handphone berdasarkan ID.
+      operationId: getPhoneById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID handphone
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detail handphone berhasil diambil
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Handphone'
+        '500':
+          description: Kesalahan server
+          
+    put:
+      tags:
+        - Handphone
+      summary: Mengedit Data Handphone
+      description: Mengedit data handphone berdasarkan ID.
+      operationId: editPhone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID handphone yang akan diedit
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HandphoneInput'
+      responses:
+        '201':
+          description: Data berhasil diedit
+        '404':
+          description: Data tidak ditemukan
+        '500':
+          description: Kesalahan server
+
+    delete:
+      tags:
+        - Handphone
+      summary: Menghapus data handphone
+      description: Menghapus data handphone berdasarkan ID.
+      operationId: deletePhone
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID handphone yang akan dihapus
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Data berhasil dihapus
+        '404':
+          description: Data tidak ditemukan
+        '500':
+          description: Kesalahan server
+
+components:
+  schemas:
+    Handphone:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID unik handphone
+        merk:
+          type: string
+          description: Merk handphone
+        type:
+          type: string
+          description: Type handphone
+        tahun_publish:
+          type: string
+          description: Tahun Publish handphone
+        harga:
+          type: string
+          description: Harga handphone
+        rating:
+          type: number
+          format: float
+          description: Rating rata-rata Handphone
+          
+    HandphoneInput:
+      type: object
+      properties:
+        merk:
+          type: string
+          description: Merk handphone
+        type:
+          type: string
+          description: Type handphone
+        tahun_publish:
+          type: string
+          description: Tahun Publish handphone
+        harga:
+          type: string
+          description: Harga handphone
+      required:
+        - nama
+        - lokasi
+          - nama
+          - lokasi
+        
